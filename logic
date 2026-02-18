@@ -147,6 +147,9 @@ def run_parameter_sweep(
 def main():
     fast_range = [5, 10, 15, 20, 25, 30, 40, 50]
     slow_range = [20, 30, 50, 75, 100, 150, 200, 250]   
+
+    # fast_range = list(range(5, 201, 5))     # 40 values
+    # slow_range = list(range(20, 501, 10))   # 49 values
     
     results = run_parameter_sweep(fast_range, slow_range)
     results.sort(key=lambda x: x.total_return, reverse=True)
