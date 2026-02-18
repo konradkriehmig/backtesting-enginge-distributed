@@ -9,3 +9,10 @@ simple ma crossover backtest on crypto data.
 The objective is not to maximize return but to show the limits of the infrastructure that the algo is running on.
 
 I use crypto as a data source because it is freely available. The data ingestion can be replaced with other data anytime.
+
+
+Running multiple backtests on my laptop:
+
+Took me 15 minutes to backtest all "strategies".
+
+<img width="519" height="663.5" alt="image" src="https://github.com/user-attachments/assets/c69a2e32-5c29-45cb-a07d-1e817d816908" />
