@@ -1,0 +1,125 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vnetName": {
+      "type": "string",
+      "defaultValue": "backtest-vnet",
+      "metadata": {
+        "description": "Name of the virtual network"
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Location for all resources"
+      }
+    }
+  },
+  "variables": {
+    "vnetAddressPrefix": "10.0.0.0/16",
+    "subnets": [
+      {
+        "name": "transform-subnet",
+        "addressPrefix": "10.0.1.0/24",
+        "purpose": "Linux VM for data transformation"
+      },
+      {
+        "name": "database-subnet",
+        "addressPrefix": "10.0.2.0/24",
+        "purpose": "PostgreSQL flexible server",
+        "delegations": [
+          {
+            "name": "postgresql-delegation",
+            "properties": {
+              "serviceName": "Microsoft.DBforPostgreSQL/flexibleServers"
+            }
+          }
+        ]
+      },
+      {
+        "name": "vmss-subnet",
+        "addressPrefix": "10.0.3.0/24",
+        "purpose": "VMSS backtesting workers"
+      },
+      {
+        "name": "endpoints-subnet",
+        "addressPrefix": "10.0.4.0/24",
+        "purpose": "Private endpoints for storage"
+      }
+    ]
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2023-05-01",
+      "name": "[parameters('vnetName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[variables('vnetAddressPrefix')]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "transform-subnet",
+            "properties": {
+              "addressPrefix": "10.0.1.0/24"
+            }
+          },
+          {
+            "name": "database-subnet",
+            "properties": {
+              "addressPrefix": "10.0.2.0/24",
+              "delegations": [
+                {
+                  "name": "postgresql-delegation",
+                  "properties": {
+                    "serviceName": "Microsoft.DBforPostgreSQL/flexibleServers"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "vmss-subnet",
+            "properties": {
+              "addressPrefix": "10.0.3.0/24"
+            }
+          },
+          {
+            "name": "endpoints-subnet",
+            "properties": {
+              "addressPrefix": "10.0.4.0/24",
+              "privateEndpointNetworkPolicies": "Disabled"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "outputs": {
+    "vnetId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
+    },
+    "transformSubnetId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), 'transform-subnet')]"
+    },
+    "databaseSubnetId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), 'database-subnet')]"
+    },
+    "vmssSubnetId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), 'vmss-subnet')]"
+    },
+    "endpointsSubnetId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), 'endpoints-subnet')]"
+    }
+  }
+}

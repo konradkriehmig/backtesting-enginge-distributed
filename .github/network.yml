@@ -1,0 +1,24 @@
+name: Create Network
+
+on:
+  workflow_dispatch:  # Manual trigger only
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy Network
+        uses: azure/arm-deploy@v1
+        with:
+          resourceGroupName: backtest-rg
+          template: ./infra/network.json
+          deploymentName: network
