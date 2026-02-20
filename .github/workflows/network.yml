@@ -4,7 +4,7 @@ on:
   workflow_dispatch:  # Manual trigger only
 
 jobs:
-  test:
+  create-network:
     runs-on: ubuntu-latest
     
     steps:
