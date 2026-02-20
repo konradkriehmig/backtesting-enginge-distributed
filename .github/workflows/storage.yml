@@ -22,5 +22,5 @@ jobs:
           scope: resourcegroup
           resourceGroupName: RG-backtest-enginge-distributed
           template: ./infra/storage.json
-          parameters: storageAccountName=${{ secrets.STORAGE_ACCOUNT_NAME }}
+          parameters: location=germanywestcentral storageAccountName=${{ secrets.STORAGE_ACCOUNT_NAME }}
           deploymentName: storage-${{ github.run_number }}
