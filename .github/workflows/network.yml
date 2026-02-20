@@ -19,6 +19,7 @@ jobs:
       - name: Deploy Network
         uses: azure/arm-deploy@v1
         with:
-          resourceGroupName: backtest-rg
+          scope: resourcegroup
+          resourceGroupName: RG-backtest-enginge-distributed
           template: ./infra/network.json
           deploymentName: network
