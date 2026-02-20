@@ -1,6 +1,8 @@
-moving_average_crossover
-
 !!!WIP!!!
+
+Aim of this project is to improve the runtime of multiple parallel backtests that take my laptop too long to run.
+
+
 
 THIS PROJECT IS ABOUT CREATING THE INFRASTRUCTURE NOT ABOUT THE TRADING STRATEGY!
  
