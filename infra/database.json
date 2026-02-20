@@ -4,7 +4,7 @@
   "parameters": {
     "serverName": {
       "type": "string",
-      "defaultValue": "backtest-postgres-1",
+      "defaultValue": "btpostgres2025",
       "metadata": {
         "description": "Name of the PostgreSQL server"
       }

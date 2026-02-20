@@ -63,7 +63,7 @@ jobs:
           scope: resourcegroup
           resourceGroupName: RG-backtest-enginge-distributed
           template: ./infra/database.json
-          parameters: location=germanywestcentral administratorPassword=${{ secrets.POSTGRES_PASSWORD }} serverName=backtest-postgres-gwc
+          parameters: location=germanywestcentral administratorPassword=${{ secrets.POSTGRES_PASSWORD }} serverName=btpostgres2025
           deploymentName: database
 
   compute:
