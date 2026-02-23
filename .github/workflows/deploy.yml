@@ -86,3 +86,4 @@ jobs:
           template: ./infra/compute.json
           parameters: location=canadacentral adminPublicKey="${{ secrets.SSH_PUBLIC_KEY }}"
           deploymentName: compute
+          #delete this line

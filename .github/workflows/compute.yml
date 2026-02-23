@@ -1,10 +1,6 @@
-name: Deploy Compute
 
-on:
-  workflow_dispatch:
-
-jobs:
-  deploy:
+  compute:
+    needs: database
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -23,4 +19,5 @@ jobs:
           template: ./infra/compute.json
           parameters: location=canadacentral adminPublicKey="${{ secrets.SSH_PUBLIC_KEY }}"
           deploymentName: compute
-          #delete this line
+
+          name: Deploy Compute
