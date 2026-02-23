@@ -1,7 +1,7 @@
 name: Deploy Infrastructure
 
 on:
-  workflow_dispatch:
+  push:
 
 jobs:
   rg:
@@ -85,7 +85,7 @@ jobs:
           scope: resourcegroup
           resourceGroupName: RG-backtest-enginge-distributed
           template: ./infra/database.json
-          parameters: location=canadacentral administratorPassword=${{ secrets.POSTGRES_PASSWORD }} serverName=${{ secrets.DB_NAME }}
+          parameters: location=canadacentral administratorPassword=${{ secrets.POSTGRES_PASSWORD }} serverName=${{ secrets.POSTGRES_NAME }}
           deploymentName: database
 
   compute:
@@ -106,6 +106,6 @@ jobs:
           scope: resourcegroup
           resourceGroupName: RG-backtest-enginge-distributed
           template: ./infra/compute.json
-          parameters: location=canadacentral adminPublicKey="${{ secrets.SSH_PUBLIC_KEY }}"
+          parameters: location=canadacentral adminPublicKey="${{ secrets.SSH_PUBLIC_KEY }}" serverName=${{ secrets.VM_NAME }}
           deploymentName: compute
           #delete this line
