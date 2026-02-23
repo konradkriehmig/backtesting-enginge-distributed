@@ -2,7 +2,15 @@
 
 Aim of this project is to improve the runtime of multiple parallel backtests that take my laptop too long to run.
 
-
+How to deploy this project:
+1) Clone repo
+2) Configure secrets in settigs:
+AZURE_CREDENTIALS
+POSTGRES_NAME
+POSTGRES_PASSWORD
+SSH_PUBLIC_KEY
+STORAGE_ACCOUNT_NAME (only lowercase letter)
+VM_NAME
 
 THIS PROJECT IS ABOUT CREATING THE INFRASTRUCTURE NOT ABOUT THE TRADING STRATEGY!
  
