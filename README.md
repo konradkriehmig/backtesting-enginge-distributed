@@ -11,6 +11,12 @@ Took me 15 minutes to backtest all "strategies".
 
 <img width="519" height="663.5" alt="image" src="https://github.com/user-attachments/assets/c69a2e32-5c29-45cb-a07d-1e817d816908" />
 
+Architecture:
+
+<img width="1818" height="700" alt="image" src="https://github.com/user-attachments/assets/747d9da8-4098-4333-ad98-9fb4647859dc" />
+
+
+
 
 How to deploy this project:
 1) Clone repo
@@ -21,3 +27,4 @@ How to deploy this project:
     SSH_PUBLIC_KEY
     STORAGE_ACCOUNT_NAME (only lowercase letter)
     VM_NAME
+
