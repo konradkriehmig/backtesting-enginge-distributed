@@ -105,7 +105,6 @@ jobs:
           deploymentName: database
 
   compute:
-    needs: storage
     if: ${{ github.event.inputs.deploy_target == 'all' || github.event.inputs.deploy_target == 'compute' }}
     runs-on: ubuntu-latest
     steps:
