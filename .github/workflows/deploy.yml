@@ -39,7 +39,6 @@ jobs:
               --tags project=backtest
 
   network:
-    needs: rg
     if: ${{ github.event.inputs.deploy_target == 'all' || github.event.inputs.deploy_target == 'network' }}
     runs-on: ubuntu-latest
     steps:
@@ -61,7 +60,6 @@ jobs:
           deploymentName: network
 
   storage:
-    needs: network
     if: ${{ github.event.inputs.deploy_target == 'all' || github.event.inputs.deploy_target == 'storage' }}
     runs-on: ubuntu-latest
     steps:
@@ -83,7 +81,6 @@ jobs:
           deploymentName: storage
 
   database:
-    needs: network
     if: ${{ github.event.inputs.deploy_target == 'all' || github.event.inputs.deploy_target == 'database' }}
     runs-on: ubuntu-latest
     steps:

@@ -19,43 +19,50 @@
   },
   "variables": {
     "vnetAddressPrefix": "10.0.0.0/16",
-    "subnets": [
-      {
-        "name": "transform-subnet",
-        "addressPrefix": "10.0.1.0/24",
-        "purpose": "Linux VM for data transformation"
-      },
-      {
-        "name": "database-subnet",
-        "addressPrefix": "10.0.2.0/24",
-        "purpose": "PostgreSQL flexible server",
-        "delegations": [
-          {
-            "name": "postgresql-delegation",
-            "properties": {
-              "serviceName": "Microsoft.DBforPostgreSQL/flexibleServers"
-            }
-          }
-        ]
-      },
-      {
-        "name": "vmss-subnet",
-        "addressPrefix": "10.0.3.0/24",
-        "purpose": "VMSS backtesting workers"
-      },
-      {
-        "name": "endpoints-subnet",
-        "addressPrefix": "10.0.4.0/24",
-        "purpose": "Private endpoints for storage"
-      }
-    ]
+    "natGatewayName": "backtest-nat",
+    "natPublicIpName": "nat-pip"
   },
   "resources": [
+    {
+      "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "2023-05-01",
+      "name": "[variables('natPublicIpName')]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Standard"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "Static"
+      }
+    },
+    {
+      "type": "Microsoft.Network/natGateways",
+      "apiVersion": "2023-05-01",
+      "name": "[variables('natGatewayName')]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Standard"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIPAddresses', variables('natPublicIpName'))]"
+      ],
+      "properties": {
+        "publicIpAddresses": [
+          {
+            "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('natPublicIpName'))]"
+          }
+        ],
+        "idleTimeoutInMinutes": 4
+      }
+    },
     {
       "type": "Microsoft.Network/virtualNetworks",
       "apiVersion": "2023-05-01",
       "name": "[parameters('vnetName')]",
       "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/natGateways', variables('natGatewayName'))]"
+      ],
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
@@ -86,7 +93,10 @@
           {
             "name": "vmss-subnet",
             "properties": {
-              "addressPrefix": "10.0.3.0/24"
+              "addressPrefix": "10.0.3.0/24",
+              "natGateway": {
+                "id": "[resourceId('Microsoft.Network/natGateways', variables('natGatewayName'))]"
+              }
             }
           },
           {
@@ -120,6 +130,10 @@
     "endpointsSubnetId": {
       "type": "string",
       "value": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), 'endpoints-subnet')]"
+    },
+    "natGatewayId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Network/natGateways', variables('natGatewayName'))]"
     }
   }
 }
